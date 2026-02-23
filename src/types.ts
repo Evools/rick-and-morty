@@ -6,13 +6,10 @@ export interface Character {
     image: string;
     gender: string;
     location: { name: string };
+    origin: { name: string };
 }
 
-export interface ApiResponse{
-    info: {
-        pages: number;
-        next: string | null;
-        prev: string | null;
-    };
+export interface ApiResponse {
+    info: { pages: number; count: number };
     results: Character[];
 }

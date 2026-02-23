@@ -1,33 +1,50 @@
 import type {Character} from "../types.ts";
+import {Link} from "react-router-dom";
 
-export const CharacterCard = ({character}: {character:Character}) => {
-
-    const statusColor = {
-        Alive: "bg-green-500",
-        Dead: "bg-red-500",
-        unknown: "bg-gray-500",
-    }[character.status]
+export const CharacterCard = ({character}: { character: Character }) => {
+    const statusColor =
+        character.status === 'Alive' ? 'bg-green-500' :
+            character.status === 'Dead' ? 'bg-red-500' : 'bg-gray-400';
 
     return (
-        <article className="flex items-center gap-2 bg-[#3c3e44] w-full text-white overflow-hidden rounded-xl">
-            <img
-                src={character.image}
-                alt={character.name}
-                className="max-w-[30%] h-full object-cover rounded-xl"
-            />
-            <div className="p-4 flex flex-col gap-3 max-w-[70%]">
-                <div className="flex flex-col gap-1">
-                    <h2 className="text-2xl font-medium">{character.name}</h2>
-                    <p className="flex items-center gap-2">
-                        <span className={`inline-block w-4 h-4 ${statusColor} rounded-full`}></span>
-                        {character.status} - {character.species}
-                    </p>
+        <Link to={`/character/${character.id}`}>
+
+
+            <article className="flex flex-col md:flex-row w-full bg-[#3c3e44] rounded-lg overflow-hidden shadow-md min-h-[220px] transition-transform hover:scale-[1.02] cursor-pointer">
+                <div className="md:w-2/5 w-full">
+                    <img
+                        src={character.image}
+                        alt={character.name}
+                        className="w-full h-full object-cover"
+                    />
                 </div>
-                <div className="flex flex-col gap-1">
-                    <p className="text-gray-500">Last known location:</p>
-                    <a className="transition hover:text-orange-600" href="">{character.location.name}</a>
+
+                <div className="md:w-3/5 w-full p-4 flex flex-col justify-between">
+                    <section>
+                        <div className="hover:text-[#ff9800] transition-colors cursor-pointer">
+                            <h2 className="text-2xl font-black leading-tight">{character.name}</h2>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm font-medium mt-1">
+                            <span className={`h-2 w-2 rounded-full ${statusColor}`}></span>
+                            {character.status} - {character.species}
+                        </div>
+                    </section>
+
+                    <section className="flex flex-col mt-4">
+                        <span className="text-[#9e9e9e] text-sm font-medium">Last known location:</span>
+                        <span className="hover:text-[#ff9800] cursor-pointer transition-colors leading-relaxed">
+            {character.location.name}
+          </span>
+                    </section>
+
+                    <section className="flex flex-col mt-4">
+                        <span className="text-[#9e9e9e] text-sm font-medium">First seen in:</span>
+                        <span className="hover:text-[#ff9800] cursor-pointer transition-colors leading-relaxed">
+            {character.origin.name}
+          </span>
+                    </section>
                 </div>
-            </div>
-        </article>
-    )
-}
+            </article>
+        </Link>
+    );
+};
